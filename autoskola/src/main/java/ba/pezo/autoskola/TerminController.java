@@ -3,14 +3,12 @@ package ba.pezo.autoskola;
 import java.util.Date;
 import java.util.List;
 
-
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/termini")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 
 public class TerminController {
 	
@@ -54,9 +53,9 @@ public class TerminController {
 	    }
 	    
 	    @GetMapping("/{Pocetni}/{Krajnji}")
-	    public ResponseEntity<List<Termin>> getByDate(@PathVariable("Pocetni") @DateTimeFormat(pattern="ddMMyyyy") Date Pocetak,
+	    public List<List<TerminDTO>> getByDate(@PathVariable("Pocetni") @DateTimeFormat(pattern="ddMMyyyy") Date Pocetak,
 	    											  @PathVariable("Krajnji") @DateTimeFormat(pattern="ddMMyyyy") Date Kraj){
-	    	return ResponseEntity.ok(terminService.dobaviTermineuSedmici(Kraj, Pocetak));
+	    	return terminService.dobaviTermineuSedmici(Kraj, Pocetak);
 	    }
 	    		
 }

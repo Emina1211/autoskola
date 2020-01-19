@@ -1,0 +1,39 @@
+<div>
+    Datum : {{datum | date: 'dd-MM-yyyy'}}
+    <input type="date" [ngModel] ="datum" (ngModelChange)="datum = $event; promjenaDatuma(datum);">
+    <table>
+        <tr>
+          <th *ngFor="let dan of dani let i = index">
+            <div [style.backgroundColor]="(i + 1) % 7 == currentDay ? 'lightcyan' :'white'">
+              {{dan}}
+            </div>
+          </th>
+        </tr>
+      <tr *ngFor="let listaTermina of termini">
+            <td *ngFor="let termin of listaTermina" [style.backgroundColor]="termin.zauzet ? 'pink' :'white'">{{termin.pocetak}} - {{termin.kraj}}</td>
+      </tr>
+      </table>
+
+      <br>
+      <form>
+      Kreiraj termin
+        <br>
+        Izaberi Datum Termina
+        <input [(ngModel)]="datum" type="date" name="date">
+        <br>
+        Izaberi Vrijeme Termina
+        <select [(ngModel)]="odabranTermin" name="first">
+          <option [value]="8">8-9</option>
+          <option [value]="9">9-10</option>
+          <option [value]="10">10-11</option>
+          <option [value]="11">11-12</option>
+          <option [value]="12">12-13</option>
+          <option [value]="13">13-14</option>
+          <option [value]="14" >14-15</option>
+          <option [value]="15">15-16</option>
+          <option [value]="16">16-17</option>
+        </select>
+        <br>
+        <button (click)="add(odabranTermin, datum);">Dodaj Termin</button>
+  </form>
+</div>

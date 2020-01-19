@@ -1,0 +1,20 @@
+<div>
+  <table>
+    <div>
+      <input type="date" [(ngModel)] ="datum" (ngModelChange)="funkcija($event)" [value]="date">
+    </div>
+    <tr>
+      <th *ngFor="let dan of dani let i = index">
+        <div [style.backgroundColor]="(i + 1) % 7 == currentDay ? 'lightcyan' :'white'">
+          {{dan}}
+        </div>
+      </th>
+    </tr>
+    <tr *ngFor = "let termin of termini">
+      <td *ngFor = "let dan of dani; " >
+        {{termin.pocetak}} - {{termin.kraj}}
+      </td>
+    </tr>
+  </table>
+  <button (click)="funckija()"> Ispisi datum</button>
+</div>

@@ -34,17 +34,39 @@ public class TerminService {
     	
     }
     
-    public List<Termin> dobaviTermineuSedmici (Date Krajnji, Date Pocetni){
-    	List<Termin> sviTermini=terminRepository.findAll ();
-    	List<Termin> zaVratiti = new ArrayList<Termin>();
-    	for (Termin termin:sviTermini) {
-    		if (termin.getDatum().after(Pocetni) && termin.getDatum().before(Krajnji))
-    		{
-    			zaVratiti.add(termin);
-    		}
+    public List<List<TerminDTO>> dobaviTermineuSedmici (Date Krajnji, Date Pocetni){
+    	List<List<TerminDTO>> sviTerminiZaSedmicu = new ArrayList<>();
+    	for (int j = 8; j <= 16; j++) {
+    		List<TerminDTO> terminiZaOvajDan = new ArrayList<>();
+    		
+			for (int i = 0; i < 7; i++) {
+				TerminDTO t = new TerminDTO();
+				Date datumTermina = DateUtil.addDays(Pocetni, i);
+				t.setDatum(datumTermina);
+				t.setPocetak(j);
+				t.setKraj(j + 1);
+				t.setZauzet(daLiJeZauzetTermin(t));
+				terminiZaOvajDan.add(t);
+	    	}
+	    	sviTerminiZaSedmicu.add(terminiZaOvajDan);
     	}
     	
-    	return zaVratiti;
+    	return sviTerminiZaSedmicu;
+    }
+    
+    private boolean daLiJeZauzetTermin(TerminDTO termin) {
+    	List<Termin> sviTermini = terminRepository.findAll();
+    	for(Termin t : sviTermini) {
+    		if (t.getPocetak() == termin.getPocetak()
+    				&& t.getKraj() == termin.getKraj()
+    				&& t.getDatum().getDate() == termin.getDatum().getDate()
+    				&& t.getDatum().getMonth() == termin.getDatum().getMonth()
+    				&& t.getDatum().getYear() == termin.getDatum().getYear()) {
+    			System.out.println(termin.getDatum());
+    			return true;
+    		}
+    	}
+    	return false;
     }
 	 
 
